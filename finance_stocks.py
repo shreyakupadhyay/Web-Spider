@@ -32,7 +32,7 @@ for sym_th in threadlist:
     sym_th.join() 
 
 
-connect_database = MySQLdb.connect(host="127.0.0.1",user="root",passwd="BlackHole",db="learning_for_scraping")
+connect_database = MySQLdb.connect(host="127.0.0.1",user="root",passwd="*******",db="learning_for_scraping")
 
 for key in gmap.keys():
     print key,gmap[key]
