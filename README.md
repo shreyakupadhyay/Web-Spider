@@ -1,2 +1,2 @@
 # Web Spider
-scraping_websites
+This repository contains scripts which scrapes websites for inportant informtions like stocks, routes.
