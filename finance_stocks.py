@@ -1,16 +1,21 @@
+'''
+Subject : getting data of stocks .
+Description:
+Getting data of stocks by following a tutorial on youtube.. 
+'''
+
+
 from threading import Thread
-import urllib
-import re
-import MySQLdb
+import urllib, re ,MySQLdb
 
 gmap ={}
 
 def th(ur):
-    url_base = "http://finance.yahoo.com/q?s="+ur
-    htmltext = urllib.urlopen(url_base).read()
+    url = "http://finance.yahoo.com/q?s="+ur
+    response = urllib.urlopen(url).read()
     regex = '<span id="yfs_l84_' + ur.lower() + '">(.+?)</span>'
     pattern = re.compile(regex)
-    results = re.findall(pattern,htmltext)
+    results = re.findall(pattern,response)
     gmap[ur] = results[0]
     try:
         print "the price of " + str(ur) + " is " + str(results)
@@ -38,7 +43,7 @@ for key in gmap.keys():
     print key,gmap[key]
     query = "INSERT INTO about_stocks  (username,stocks_value) values (" 
     query = query + "'" + key + "'," + gmap[key] + ")"
-    x = connect_database.cursor()  #this line is for selecting from the database;
-    x.execute(query) #this line is used to execute a query
-    row = x.fetchall()  #this line is to fetch data from the databse
+    db = connect_database.cursor()  #this line is for selecting from the database;
+    db.execute(query) #this line is used to execute a query
+    row = db.fetchall()  #this line is to fetch data from the database
     connect_database.commit() 
