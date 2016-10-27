@@ -1,34 +1,37 @@
+#!/usr/bin/env python
+'''
+Author : Shreyak Upadhyay
+Email : shreyakupadhyay07@gmail.com
+Subject : running programs of various languages using one script .
+Description: Using system calls and various python libraries compiling programs of various programming langauges using on single
+script of python. 
+'''
+
 from lxml import html
-import requests
-import urllib
-import re
-import logging
+import requests , urllib , re , logging
+
 
 logging.basicConfig(level=logging.DEBUG)
 s = requests.Session()
-page = requests.get("http://narasimhadatta.info/bmtc_query.html")
-tree = html.fromstring(page.content)
+response = requests.get("http://narasimhadatta.info/bmtc_query.html")
+tree = html.fromstring(response.content)
 
 array_from = tree.xpath('//*[@name="from"]/option/text()')
 array_to = tree.xpath('//*[@name="to"]/option/text()')
 
-data= {
-        'from' : 'Damodaranagar',
-         'to' : 'Central Silk Board',
-         'how' : 'Minimum Number of Hops',
-        }
-r = s.post('http://narasimhadatta.info/cgi-bin/find.cgi',data=data)
-regex = re.escape('<tr><td>')+'(.+?)'+re.escape('</td><td>')+'(.+?)'+re.escape('</td><td>')+'(.+?)'+re.escape('</td><td>') + re.escape('<a href="/cgi-bin/find.cgi?route=')+'([0-9A-Z]{3,6})'
-regex_a = re.escape('<a href="/cgi-bin/find.cgi?route=')+'([0-9A-Z]{3,6})'
-pattern = re.compile(regex)
-results = re.findall(pattern,r.text)
-pattern_a = re.compile(regex_a)
-results_a = re.findall(pattern_a,r.text)
+def getPath():
+    data= {
+            'from' : 'Damodaranagar',
+             'to' : 'Central Silk Board',
+             'how' : 'Minimum Number of Hops',
+            }
+    r = s.post('http://narasimhadatta.info/cgi-bin/find.cgi',data=data)
+    regex = re.escape('<tr><td>')+'(.+?)'+re.escape('</td><td>')+'(.+?)'+re.escape('</td><td>')+'(.+?)'+re.escape('</td><td>') + re.escape('<a href="/cgi-bin/find.cgi?route=')+'([0-9A-Z]{3,6})'
+    regex_a = re.escape('<a href="/cgi-bin/find.cgi?route=')+'([0-9A-Z]{3,6})'
+    results = re.findall(re.compile(regex),r.text)
+    results_a = re.findall(re.compile(regex_a),r.text)
 
-#print results_a
-
-#for j in range(0,len(results)):
- #   print results[j]
+getPath()
 
 
 final = []
